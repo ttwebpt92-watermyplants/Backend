@@ -54,7 +54,7 @@
 | GET          | /api/v1/users/logout       | Ends User Session      |
 | GET          | /api/v1/users              | Get All Users          |
 | GET          | /api/v1/users/:id          | Get Specific User      |
-| PATCH        | /api/v1/users/:id          | Update User            |
+| PUT          | /api/v1/users/:id          | Update User            |
 | DELETE       | /api/v1/users/:id          | Remove User            |
 
 ## Plants
@@ -63,5 +63,5 @@
 | GET          | /api/v1/plants             | Get All Plants          |
 | GET          | /api/v1/plants/:id         | Get Specific Plant      |
 | POST         | /api/v1/plants             | Add Plant               |
-| PATCH        | /api/v1/plants/:id         | Update Plant            |
+| PUT          | /api/v1/plants/:id         | Update Plant            |
 | DELETE       | /api/v1/plants/:id         | Remove Plant            |
