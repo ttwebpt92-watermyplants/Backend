@@ -49,19 +49,19 @@
 
 | Request Type | Endpoint                   | Description            |
 |:------------:|:--------------------------:|:----------------------:|
-| POST         | /api/v1/users              | Creates User           |
-| POST         | /api/v1/users/login        | Creates Auth Token     |
-| GET          | /api/v1/users/logout       | Ends User Session      |
-| GET          | /api/v1/users              | Get All Users          |
-| GET          | /api/v1/users/:id          | Get Specific User      |
-| PUT          | /api/v1/users/:id          | Update User            |
-| DELETE       | /api/v1/users/:id          | Remove User            |
+| POST         | /api/users                 | Creates User           |
+| POST         | /api/users/login           | Creates Auth Token     |
+| GET          | /api/users/logout          | Ends User Session      |
+| GET          | /api/users                 | Get All Users          |
+| GET          | /api/users/:id             | Get Specific User      |
+| PUT          | /api/users/:id             | Update User            |
+| DELETE       | /api/users/:id             | Remove User            |
 
 ## Plants
-| Request Type | Endpoint                  | Description             |
-|:------------:|:-------------------------:|:-----------------------:|
-| GET          | /api/v1/plants             | Get All Plants          |
-| GET          | /api/v1/plants/:id         | Get Specific Plant      |
-| POST         | /api/v1/plants             | Add Plant               |
-| PUT          | /api/v1/plants/:id         | Update Plant            |
-| DELETE       | /api/v1/plants/:id         | Remove Plant            |
+| Request Type | Endpoint                   | Description            |
+|:------------:|:--------------------------:|:----------------------:|
+| GET          | /api/plants                | Get All Plants         |
+| GET          | /api/plants/:id            | Get Specific Plant     |
+| POST         | /api/plants                | Add Plant              |
+| PUT          | /api/plants/:id            | Update Plant           |
+| DELETE       | /api/plants/:id            | Remove Plant           |
