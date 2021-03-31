@@ -60,8 +60,8 @@
 ## Plants
 | Request Type | Endpoint                  | Description             |
 |:------------:|:-------------------------:|:-----------------------:|
-| GET          | api/v1/plants             | Get All Plants          |
-| GET          | api/v1/plants/:id         | Get Specific Plant      |
-| POST         | api/v1/plants             | Add Plant               |
-| PATCH        | api/v1/plants/:id         | Update Plant            |
-| DELETE       | api/v1/plants/:id         | Remove Plant            |
+| GET          | /api/v1/plants             | Get All Plants          |
+| GET          | /api/v1/plants/:id         | Get Specific Plant      |
+| POST         | /api/v1/plants             | Add Plant               |
+| PATCH        | /api/v1/plants/:id         | Update Plant            |
+| DELETE       | /api/v1/plants/:id         | Remove Plant            |
