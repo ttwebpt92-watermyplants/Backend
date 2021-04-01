@@ -4,6 +4,7 @@ const cors = require("cors");
 
 const plantsRouter = require("./routers/plants");
 const usersRouter = require("./routers/users");
+const rootRouter = require("./routers/root");
 
 const server = express();
 
@@ -11,6 +12,7 @@ server.use(helmet());
 server.use(express.json());
 server.use(cors());
 
+server.use("/api", rootRouter);
 server.use("/api/users", usersRouter);
 server.use("/api/plants", plantsRouter);
 
