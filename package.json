@@ -12,7 +12,7 @@
     "dbh": "heroku pg:psql -a alc-water-my-plants",
     "seedh": "heroku run knex seed:run -a alc-water-my-plants",
     "test": "cross-env NODE_ENV=testing jest --watchAll --verbose --runInBand",
-    "deploy": "git push heroku main"
+    "deploy": "git push heroku dev"
   },
   "engines": {
     "node": "14.15.4",
