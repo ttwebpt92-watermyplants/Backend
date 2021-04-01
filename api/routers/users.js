@@ -1,36 +1,23 @@
 const express = require("express")
-const router = require("express").Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const Users = require("../models/users");
+// const { restricted } = require("../middleware/auth");
 
+const router = express.Router();
 
 // Register New User
-router.post("/", async (req, res, next) => {
-
-    try {
-      const {username, password, phone, firstname, lastname, email} = req.body;
-      const user = await Users.find(username);
-
-      if (user) {
-          return res.status(409).json({message: `The username ${user.username} is already taken. Please try again.`})
-      }
-
-      const newUser = await Users.add({
-        username,
-        password: await bcrypt.hash(password, process.env.BCRYPT_TIME_COMPLEXITY),
-        phone,
-        firstname,
-        lastname,
-        email
-      })
-
-      res.status(201).json(newUser);
-
-    } catch (err) {
-        next(err);
-    }
-})
+router.post('/register', async (req, res) => {
+  const { username, password, phone, firstname, lastname, email } = req.body;
+  Users.add({ username, phone, firstname, lastname, email, password: await bcrypt.hash(password, 8) })
+    .then(id => {
+      res.status(201).json({ message: "User registered", id });
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({ message: "Error registering user" });
+    });
+});
 
 // Login User
 router.post("/login", async (req, res, next) => {
@@ -64,13 +51,13 @@ router.post("/login", async (req, res, next) => {
 });
 
 // Get All Users
-router.get("/", (req, res, next) => {
-    Users.find()
-      .then(users => {
-        res.json(users);
-      })
-      .catch(next);
-  });
+router.get("/", async (req, res, next) => {
+  try {
+    res.json(await Users.find())
+  } catch (err) {
+    next(err)
+  }
+});
 
   // Get Specific User
   router.get("/:id", (req, res, next) => {

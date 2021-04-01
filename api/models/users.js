@@ -1,30 +1,23 @@
 const db = require('../data/db-config');
 
 function find() {
-
-    return db('users')
-      .select('*')
+    return db('users');
 }
 
-function findBy(filter) {
-
+function findByUsername(username) {
     return db('users')
-      .select('*')
-      .where(filter)
-}
-
-function findById(id) {
-
-    return db('users')
-      .select('*')
-      .where({ id })
-      .first()
+      .where(username);
 }
 
 function add(user) {
-    return db("users")
-      .insert(user, 'id')
-      .then(([id]) => findById(id));
+  return db("users")
+    .insert(user, 'id')
+    .then(([id]) => id);
+}
+
+function findById(id) {
+    return findBy(id)
+      .first();
 }
 
 function update(id, changes) {
@@ -37,12 +30,12 @@ function update(id, changes) {
 function remove(id) {
 	return db("users")
         .where({ id })
-        .del()
+        .del();
 }
 module.exports = {
   add,
   find,
-  findBy,
+  findByUsername,
   findById,
   remove,
   update
