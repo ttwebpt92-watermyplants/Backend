@@ -19,27 +19,27 @@ router.post('/register', async (req, res, next) => {
   }
 });
 
-// Login User
-// router.post('/login', (req, res) => {
-//   const { username, password } = req.body;
-//   Users
-//     .findByUsername(username)
-//     .then(user => {
-//       if (user && bcrypt.compare(password, user.password)) {
-//         const token = generateToken(user);
-//         res.status(200).json({
-//           message: "Yay! You logged in!!!!!!!",
-//           token
-//         });
-//       } else {
-//         res.status(401).json({ message: "Invalid password" });
-//       }
-//     })
-//     .catch(err => {
-//       console.log(err);
-//       res.status(500).json({ message: "Error logging in user" });
-//     });
-// });
+//Login User
+router.post('/login', (req, res) => {
+  const { username, password } = req.body;
+  Users
+    .findByUsername(username)
+    .then(user => {
+      if (user && bcrypt.compare(password, user.password)) {
+        const token = generateToken(user);
+        res.status(200).json({
+          message: "Yay! You logged in!!!!!!!",
+          token
+        });
+      } else {
+        res.status(401).json({ message: "Invalid password" });
+      }
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({ message: "Error logging in user" });
+    });
+});
 
 
 // Get All Users
