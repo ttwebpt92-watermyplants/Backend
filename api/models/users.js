@@ -4,20 +4,18 @@ function find() {
     return db('users');
 }
 
+function findBy(where) {
+  return db('users').where(where);
+}
+
 function findByUsername(username) {
-    return db('users')
-      .where(username);
+  return findBy({ username }).first();
 }
 
 function add(user) {
   return db("users")
     .insert(user, 'id')
     .then(([id]) => id);
-}
-
-function findById(id) {
-    return findBy(id)
-      .first();
 }
 
 function update(id, changes) {
@@ -36,7 +34,6 @@ module.exports = {
   add,
   find,
   findByUsername,
-  findById,
   remove,
   update
 };

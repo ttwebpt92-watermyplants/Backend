@@ -6,6 +6,17 @@ const Users = require("../models/users");
 
 const router = express.Router();
 
+function generateToken(user) {
+  const payload = {
+    username: user.username,
+    id: user.id,
+  };
+  const options = {
+    expiresIn: '1d',
+  };
+  return jwt.sign(payload, parseInt(process.env.JWT_SECRET) || 'lkajsdlkjaskldj', options);
+}
+
 router.post('/register', async (req, res, next) => {
   try {
     const { username, password, phone, email, firstname, lastname } = req.body;
@@ -20,27 +31,21 @@ router.post('/register', async (req, res, next) => {
 });
 
 //Login User
-router.post('/login', (req, res) => {
-  const { username, password } = req.body;
-  Users
-    .findByUsername(username)
-    .then(user => {
-      if (user && bcrypt.compare(password, user.password)) {
-        const token = generateToken(user);
-        res.status(200).json({
-          message: "Yay! You logged in!!!!!!!",
-          token
-        });
-      } else {
-        res.status(401).json({ message: "Invalid password" });
-      }
-    })
-    .catch(err => {
-      console.log(err);
-      res.status(500).json({ message: "Error logging in user" });
-    });
-});
+router.post('/login', async (req, res, next) => {
+  try {
+    const { username, password } = req.body;
+    const user = await Users.findByUsername(username);
+    const validPass = await bcrypt.compare(password, user.password);
 
+    if (user && validPass) {
+      res.status(200).json({ message: `Hello, ${username}! You are now logged in!`});
+    } else {
+      res.status(401).json({message: 'Invalid Credentials! Try again.'});
+    }
+  } catch (err) {
+      next(err)
+  }
+});
 
 // Get All Users
 router.get("/", async (req, res, next) => {
