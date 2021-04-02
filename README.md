@@ -49,7 +49,7 @@
 
 | Request Type | Endpoint                   | Description            |
 |:------------:|:--------------------------:|:----------------------:|
-| POST         | /api/users                 | Creates User           |
+| POST         | /api/users/register        | Creates User           |
 | POST         | /api/users/login           | Creates Auth Token     |
 | GET          | /api/users/logout          | Ends User Session      |
 | GET          | /api/users                 | Get All Users          |
