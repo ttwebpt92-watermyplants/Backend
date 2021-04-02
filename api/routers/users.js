@@ -6,49 +6,41 @@ const Users = require("../models/users");
 
 const router = express.Router();
 
-// Register New User
-router.post('/register', async (req, res) => {
-  const { username, password, phone, firstname, lastname, email } = req.body;
-  Users.add({ username, phone, firstname, lastname, email, password: await bcrypt.hash(password, 8) })
-    .then(id => {
-      res.status(201).json({ message: "User registered", id });
-    })
-    .catch(err => {
-      console.log(err);
-      res.status(500).json({ message: "Error registering user" });
-    });
+router.post('/register', async (req, res, next) => {
+  try {
+    const { username, password, phone, email, firstname, lastname } = req.body;
+
+    const hashed = await bcrypt.hash(password, parseInt(process.env.BCRYPT_TIME_COMPLEXITY));
+
+    const newUser = await Users.add({ username, phone, email, firstname, lastname , password: hashed })
+    res.status(201).json({ message: "User registered", newUser });
+  } catch (err) {
+      next(err)
+  }
 });
 
 // Login User
-router.post("/login", async (req, res, next) => {
+// router.post('/login', (req, res) => {
+//   const { username, password } = req.body;
+//   Users
+//     .findByUsername(username)
+//     .then(user => {
+//       if (user && bcrypt.compare(password, user.password)) {
+//         const token = generateToken(user);
+//         res.status(200).json({
+//           message: "Yay! You logged in!!!!!!!",
+//           token
+//         });
+//       } else {
+//         res.status(401).json({ message: "Invalid password" });
+//       }
+//     })
+//     .catch(err => {
+//       console.log(err);
+//       res.status(500).json({ message: "Error logging in user" });
+//     });
+// });
 
-    try {
-      const {username, password} = req.body;
-      const user = await Users.findBy({username}).first();
-
-      if(!user) {
-        return res.status(401).json({message: 'Invalid Credentials'})
-      }
-      const validPass = await bcrypt.compare(password, user.password);
-
-      if (!validPass) {
-          return res.status(401).json({message: 'Invalid Credentials'})
-      }
-
-      const token = jwt.sign({
-          userID: user.user_id,
-          userRole: role,
-          JWT_SECRET,
-      })
-
-      res.cookie('token', token);
-
-      res.json({message: `Welcome, ${user.username}!`})
-
-    } catch (err) {
-        next(err);
-    }
-});
 
 // Get All Users
 router.get("/", async (req, res, next) => {
