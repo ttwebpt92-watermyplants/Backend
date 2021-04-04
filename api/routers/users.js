@@ -42,7 +42,7 @@ router.post('/login', async (req, res, next) => {
 });
 
 // Get All Users
-router.get("/", async (req, res, next) => {
+router.get("/", restricted(), async (req, res, next) => {
   try {
     res.json(await Users.find())
   } catch (err) {
@@ -51,7 +51,7 @@ router.get("/", async (req, res, next) => {
 });
 
   // Get Specific User
-  router.get("/:id", (req, res, next) => {
+  router.get("/:id", restricted(), (req, res, next) => {
     Users.findById(req.params.user_id)
       .then(user => {
         res.json(user);
@@ -60,7 +60,7 @@ router.get("/", async (req, res, next) => {
   });
 
 // Update User
-router.put("/:id", async (req, res, next) => {
+router.put("/:id", restricted(), async (req, res, next) => {
 	try {
 		const { id } = req.params
 		await db("users").where({ id }).update(req.body)
@@ -73,7 +73,7 @@ router.put("/:id", async (req, res, next) => {
 })
 
 // Delete User
-router.delete("/:id", async (req, res, next) => {
+router.delete("/:id", restricted(), async (req, res, next) => {
 	try {
 		await users.deleteUserById(req.params.id);
 		res.status(204).end()
@@ -83,7 +83,7 @@ router.delete("/:id", async (req, res, next) => {
 })
 
 // Log User Out (Destroy Session)
-router.get("/logout", async (req, res, next) => {
+router.get("/logout", restricted(), async (req, res, next) => {
 	try {
 		req.session.destroy((err) => {
 			if (err) {
