@@ -30,10 +30,23 @@ function remove(id) {
         .where({ id })
         .del();
 }
+
+function invalidate(token) {
+  return db("storage")
+    .insert(token)
+}
+
+function findInvalid(token) {
+  return db('storage').where(token);
+}
+
+
 module.exports = {
   add,
   find,
   findByUsername,
   remove,
-  update
+  update,
+  invalidate,
+  findInvalid
 };

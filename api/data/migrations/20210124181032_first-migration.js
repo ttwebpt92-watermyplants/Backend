@@ -1,5 +1,9 @@
 exports.up = async (knex) => {
   await knex.schema
+    .createTable('storage', (storage) => {
+      storage.increments('id')
+      storage.string('token', 200)
+    })
     .createTable('users', (users) => {
       users.increments('id')
       users.string('username', 200).notNullable()
@@ -22,4 +26,5 @@ exports.up = async (knex) => {
 exports.down = async (knex) => {
   await knex.schema.dropTableIfExists('plants')
   await knex.schema.dropTableIfExists('users')
+  await knex.schema.dropTableIfExists('storage')
 }
