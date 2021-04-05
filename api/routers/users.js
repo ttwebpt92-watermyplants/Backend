@@ -1,6 +1,7 @@
 const express = require("express")
 const bcrypt = require("bcryptjs");
 const Users = require("../models/users");
+const Storage = require("../models/storage");
 const auth = require("../middleware/auth");
 const { generateToken } = require('../util/helpers');
 
@@ -44,7 +45,7 @@ router.post('/login', async (req, res, next) => {
 
 
 // Get All Users
-router.get("/", auth, async (req, res, next) => {
+router.get("/",  async (req, res, next) => {
   try {
     res.json(await Users.find())
   } catch (err) {
@@ -53,7 +54,7 @@ router.get("/", auth, async (req, res, next) => {
 });
 
   // Get Specific User
-  router.get("/:id", auth, (req, res, next) => {
+  router.get("/:id", (req, res, next) => {
     Users.findById(req.params.user_id)
       .then(user => {
         res.json(user);
@@ -62,7 +63,7 @@ router.get("/", auth, async (req, res, next) => {
   });
 
 // Update User
-router.put("/:id", auth, async (req, res, next) => {
+router.put("/:id",  async (req, res, next) => {
 	try {
 		const { id } = req.params
 		await db("users").where({ id }).update(req.body)
@@ -75,7 +76,7 @@ router.put("/:id", auth, async (req, res, next) => {
 })
 
 // Delete User
-router.delete("/:id", auth, async (req, res, next) => {
+router.delete("/:id",  async (req, res, next) => {
 	try {
 		await users.deleteUserById(req.params.id);
 		res.status(204).end()
@@ -87,14 +88,11 @@ router.delete("/:id", auth, async (req, res, next) => {
 // Log User Out (Destroy Session)
 router.get("/logout", async (req, res, next) => {
 	try {
-		req.session.destroy((err) => {
-			if (err) {
-				next(err)
-			} else {
-				res.status(204).end()
-			}
-		})
-	} catch (err) {
+    const token = req.cookies.token;
+    if (token) {
+      Storage.add(token);
+    }
+  } catch (err) {
 		next(err)
 	}
 })
